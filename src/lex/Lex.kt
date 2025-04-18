@@ -1,7 +1,6 @@
 package lex
 
 import lex.chars.Chars
-import loc.Tracker
 import tok.Tok
 import tok.TokKind
 import tok.match.Match
@@ -9,14 +8,19 @@ import util.char.isFromId
 import util.char.isId
 import util.char.isInsignificant
 
+/**
+ * Iterator that gives the next [Tok] one at a time.
+ */
 class Lex(src: String) {
     private val chars = Chars(src)
     private val tracker = Tracker()
 
-    private fun advance(): Char? {
-        return chars.pop()?.also { tracker.capture(it) }
-    }
-
+    /**
+     * Returns the next [Tok] in the source code.
+     *
+     * @return [TokKind.UNEXPECTED] if we encounter an unexpected character, [TokKind.EOF] if we reached the end of
+     * the source code, or REPL input.
+     */
     fun next(): Tok {
         skipWs()
         sync()
@@ -90,6 +94,11 @@ class Lex(src: String) {
         advance()
         takeWhile(predicate)
     }
+
+    private fun advance(): Char? {
+        return chars.pop()?.also { tracker.capture(it) }
+    }
+
 
     private fun peek(): Char? {
         return chars.peek()

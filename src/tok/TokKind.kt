@@ -1,5 +1,8 @@
 package tok
 
+/**
+ * All kinds of tokens.
+ */
 enum class TokKind {
     PLUS,
     MINUS,

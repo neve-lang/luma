@@ -3,6 +3,9 @@ package tok.match
 import tok.TokKind
 import tok.TokKind.*
 
+/**
+ * Tiny wrapper around the mechanism of recognizing tokens from source code.
+ */
 object Match {
     private val KEYWORDS = mapOf(
         "in" to IN,
@@ -34,14 +37,23 @@ object Match {
         "<=" to LTE
     )
 
+    /**
+     * @return a [TokKind] if a matching [lexeme] is found, or [UNEXPECTED] otherwise.
+     */
     fun match(lexeme: String): TokKind {
         return TWO_CHAR[lexeme] ?: ONE_CHAR[lexeme.first()] ?: UNEXPECTED
     }
 
+    /**
+     * @return whether a [TokKind] has a lexeme that spans two source code characters.
+     */
     fun isTwoChars(kind: TokKind): Boolean {
         return TWO_CHAR.containsValue(kind)
     }
 
+    /**
+     * @return a keyword [TokKind], or `null` otherwise.
+     */
     fun asKeyword(lexeme: String): TokKind? {
         return KEYWORDS[lexeme]
     }
